@@ -1,0 +1,37 @@
+CREATE DATABASE Empresa;
+USE Empresa;
+CREATE TABLE Clientes (
+	dni VARCHAR(9) PRIMARY KEY,
+	nombre VARCHAR(25) NOT NULL,
+	apellidos VARCHAR(50) NOT NULL,
+	direccion VARCHAR(255),
+	fechaNacim DATE
+);
+CREATE TABLE Proveedores (
+	nif VARCHAR(9) PRIMARY KEY,
+	nombre VARCHAR(60) NOT NULL,
+	direccion VARCHAR(255)
+);
+CREATE TABLE Productos (
+	codigo VARCHAR(15) PRIMARY KEY,
+	nombre VARCHAR(60) NOT NULL,
+	precioUnitario DECIMAL(10,2),
+	nifProveedor VARCHAR(9),
+	FOREIGN KEY (nifProveedor)
+		REFERENCES Proveedores(nif)
+		ON DELETE RESTRICT
+		ON UPDATE RESTRICT
+);
+CREATE TABLE Compras (
+	idCompra INT AUTO_INCREMENT PRIMARY KEY,
+	dniCliente VARCHAR(9) NOT NULL,
+	codigoProducto VARCHAR(15) NOT NULL,
+	FOREIGN KEY (dniCliente)
+		REFERENCES Clientes(dni)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (codigoProducto)
+		REFERENCES Productos(codigo)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+);
