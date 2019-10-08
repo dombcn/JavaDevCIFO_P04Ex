@@ -1,0 +1,40 @@
+CREATE DATABASE Empresa;
+USE Empresa;
+CREATE TABLE Clientes (
+	idCliente INT AUTO_INCREMENT PRIMARY KEY,
+	dni VARCHAR(9) UNIQUE NOT NULL,
+	nombre VARCHAR(25) NOT NULL,
+	apellidos VARCHAR(50) NOT NULL,
+	direccion VARCHAR(255),
+	fechaNacim DATE
+);
+CREATE TABLE Proveedores (
+	idProveedor INT AUTO_INCREMENT PRIMARY KEY,
+	nif VARCHAR(9) UNIQUE NOT NULL,
+	nombre VARCHAR(60) NOT NULL,
+	direccion VARCHAR(255)
+);
+CREATE TABLE Productos (
+	idProducto INT AUTO_INCREMENT PRIMARY KEY,
+	codigo VARCHAR(15) UNIQUE NOT NULL,
+	nombre VARCHAR(60) NOT NULL,
+	precioUnitario DECIMAL(10,2) DEFAULT 0 NOT NULL,
+	idProveedor INT NOT NULL,
+	FOREIGN KEY (idProveedor)
+		REFERENCES Proveedores(idProveedor)
+		ON DELETE RESTRICT
+		ON UPDATE CASCADE
+);
+CREATE TABLE Compras (
+	idCompra INT AUTO_INCREMENT PRIMARY KEY,
+	idCliente INT NOT NULL,
+	idProducto INT NOT NULL,
+	FOREIGN KEY (idCliente)
+		REFERENCES Clientes(idCliente)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (idProducto)
+		REFERENCES Productos(idProducto)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+);
